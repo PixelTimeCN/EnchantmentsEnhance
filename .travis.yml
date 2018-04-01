@@ -3,23 +3,21 @@ jdk:
   - oraclejdk8
 branches:
   only:
-    - master
+    - alpha-kotlin
 install:
   - cd BuildTools
+  - if [ -e "craftbukkit-1.8.jar" ]; then echo "CraftBukkit-1.8.jar OK."; else java -jar BuildTools.jar --rev 1.8; fi
+  - if [ -e "craftbukkit-1.8.3.jar" ]; then echo "CraftBukkit-1.8.3.jar OK."; else java -jar BuildTools.jar --rev 1.8.3; fi
   - if [ -e "craftbukkit-1.8.8.jar" ]; then echo "CraftBukkit-1.8.8.jar OK."; else java -jar BuildTools.jar --rev 1.8.8; fi
+  - if [ -e "craftbukkit-1.9.2.jar" ]; then echo "CraftBukkit-1.9.2.jar OK."; else java -jar BuildTools.jar --rev 1.9.2; fi
   - if [ -e "craftbukkit-1.9.4.jar" ]; then echo "CraftBukkit-1.9.4.jar OK."; else java -jar BuildTools.jar --rev 1.9.4; fi
   - if [ -e "craftbukkit-1.10.2.jar" ]; then echo "CraftBukkit-1.10.2.jar OK."; else java -jar BuildTools.jar --rev 1.10.2; fi
   - if [ -e "craftbukkit-1.11.2.jar" ]; then echo "CraftBukkit-1.11.2.jar OK."; else java -jar BuildTools.jar --rev 1.11.2; fi
+  - if [ -e "craftbukkit-1.12.1.jar" ]; then echo "CraftBukkit-1.12.1.jar OK."; else java -jar BuildTools.jar --rev 1.12.1; fi
   - if [ -e "craftbukkit-1.12.2.jar" ]; then echo "CraftBukkit-1.12.2.jar OK."; else java -jar BuildTools.jar --rev 1.12.2; fi
   - cd ..
-
-
-install:
-  - mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script:
-  - mvn test jacoco:report
-after_success:
-  - mvn clean test saga:coverage cobertura:cobertura coveralls:report
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip=true
 cache:
   directories:
     - $HOME/.m2
